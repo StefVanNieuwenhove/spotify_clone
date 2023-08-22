@@ -1,0 +1,19 @@
+Todo
+- should be able to see that I’m logged in and the basic information about my profile
+    * moet kunnen zien dat ik ben ingelogd en de basisinformatie over mijn profiel
+
+V should be able to select an exisiting playlist from a list and display its content
+    * moet een bestaande afspeellijst uit een lijst kunnen selecteren en de inhoud ervan kunnen weergeven
+
+- should be able to consult a given playlist’s conent (every track added to it)
+    * moet de inhoud van een bepaalde afspeellijst kunnen raadplegen (elke track die eraan is toegevoegd)
+    
+- should be able to perform a search for any tracks and consult the search results.
+    * moet een zoekopdracht kunnen uitvoeren naar een willekeurig nummer en de zoekresultaten kunnen raadplegen.
+
+
+Nice to have
+- should be able to sort the tracks by name, atrist, duration, …
+- display additional track information (bars, beats, sections, segments, …)
+- allow the user to switch to a dark mode
+…
