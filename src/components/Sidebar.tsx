@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BsMoonFill, BsSunFill } from 'react-icons/bs';
 import { useTheme } from '../containers/theme/ThemeProvider';

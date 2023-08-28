@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useGetPlaylistTracksQuery } from '../api/apiSlice';
 import { SearchTracks, Track } from '../components';
@@ -7,6 +7,8 @@ import { BiTime } from 'react-icons/bi';
 import { useSelector } from 'react-redux';
 
 const Playlist = () => {
+  const options = ['Title', 'Artist', 'Album', 'Duration'];
+  const [filter, setFilter] = useState<string | null>(null);
   const { state } = useLocation();
 
   const accesToken = useSelector(authSelectors.getAccessToken);
@@ -16,6 +18,12 @@ const Playlist = () => {
       skip: !accesToken,
     }
   );
+
+  const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setFilter(event.target.value);
+  };
+
+  console.log(tracks);
 
   return (
     <>
@@ -38,10 +46,34 @@ const Playlist = () => {
             </p>
           </div>
         </section>
-        <section className='w-full p-4 dark:bg-green dark:text-white'>
-          {state.playlist.owner.display_name === 'Stef Van Nieuwenhove' ? (
-            <SearchTracks added />
-          ) : undefined}
+        <section className='w-full p-4 dark:bg-green dark:text-white flex justify-between'>
+          <div className='w-full'>
+            {state.playlist.owner.display_name === 'Stef Van Nieuwenhove' ? (
+              <SearchTracks added />
+            ) : undefined}
+          </div>
+          <div className='flex items-center justify-center w-1/3'>
+            <div className='flex items-center space-x-4'>
+              <label htmlFor='combo' className='text-lg font-semibold'>
+                choose a filter:
+              </label>
+              <select
+                id='combo'
+                className='border rounded px-2 py-1 focus:outline-none focus:border-blue-500 dark:bg-green'
+                value={filter || ''}
+                onChange={handleOptionChange}
+              >
+                <option value='' disabled>
+                  default
+                </option>
+                {options.map((option, index) => (
+                  <option key={index} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
         </section>
         <section className='w-full px-5 py-4 dark:bg-green dark:text-white'>
           <table className='w-full  rounded-md'>
@@ -57,7 +89,12 @@ const Playlist = () => {
             </thead>
             <tbody className='w-full'>
               {tracks?.items.map((track: any, index: number) => (
-                <Track key={track.track.id} index={index} {...track.track} />
+                <Track
+                  key={track.track.id}
+                  index={index}
+                  filter={filter}
+                  {...track.track}
+                />
               ))}
             </tbody>
           </table>
