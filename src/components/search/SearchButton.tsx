@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useGetSearchTrackResultQuery } from '../api/apiSlice';
-import { authSelectors } from '../containers/auth/selectors';
+import { useGetSearchTrackResultQuery } from '../../api/apiSlice';
+import { authSelectors } from '../../containers/auth/selectors';
 
-const SearchInput = ({ value, setTracks }: any) => {
+const SearchButton = ({ value, setTracks }: any) => {
   const [search, setSearch] = useState('');
 
   const accesToken = useSelector(authSelectors.getAccessToken);
@@ -38,4 +38,4 @@ const SearchInput = ({ value, setTracks }: any) => {
   );
 };
 
-export default SearchInput;
+export default SearchButton;

@@ -1,60 +1,55 @@
 import React, { FC, ReactElement, Suspense } from 'react';
-import { useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
-import { useGetPlaylistsQuery, useGetUserQuery } from './api/apiSlice';
 import { Sidebar } from './components';
-import { authSelectors } from './containers/auth/selectors';
-import { Playlist, Search } from './pages';
-import { User } from './types';
+import ThemeProvider from './containers/theme/ThemeProvider';
 
 const Home = React.lazy(() => import('./pages/Home'));
 const Profile = React.lazy(() => import('./pages/Profile'));
+const Search = React.lazy(() => import('./pages/Search'));
+const Playlist = React.lazy(() => import('./pages/Playlist'));
 
 const App: FC = (): ReactElement => {
-  const accesToken = useSelector(authSelectors.getAccessToken);
-  const { data: user } = useGetUserQuery(undefined, {
-    skip: !accesToken,
-  });
-
   return (
     <>
-      <Sidebar />
-      <Routes>
-        <Route path='/'>
+      <ThemeProvider>
+        <Sidebar />
+        <Routes>
+          <Route path='/'>
+            <Route
+              index
+              element={
+                <Suspense fallback={<span>LOADING...</span>}>
+                  <Home />
+                </Suspense>
+              }
+            />
+            <Route
+              path='playlist/:id'
+              element={
+                <Suspense fallback={<span>LOADING...</span>}>
+                  <Playlist />
+                </Suspense>
+              }
+            />
+          </Route>
           <Route
-            index
+            path='/profile'
             element={
               <Suspense fallback={<span>LOADING...</span>}>
-                <Home />
+                <Profile />
               </Suspense>
             }
           />
           <Route
-            path='playlist/:id'
+            path='/search'
             element={
               <Suspense fallback={<span>LOADING...</span>}>
-                <Playlist />
+                <Search />
               </Suspense>
             }
           />
-        </Route>
-        <Route
-          path='/profile'
-          element={
-            <Suspense fallback={<span>LOADING...</span>}>
-              <Profile />
-            </Suspense>
-          }
-        />
-        <Route
-          path='/search'
-          element={
-            <Suspense fallback={<span>LOADING...</span>}>
-              <Search />
-            </Suspense>
-          }
-        />
-      </Routes>
+        </Routes>
+      </ThemeProvider>
     </>
   );
 };

@@ -48,6 +48,15 @@ export const apiSlice = createApi({
         return response.tracks.items;
       },
     }),
+    addTrackToPlaylist: builder.query<
+      void,
+      { playlistId: string; trackUris: { uri: string[]; position: number } }
+    >({
+      query: ({ playlistId, trackUris }) => ({
+        url: `/playlists/${playlistId}/tracks?uris=${trackUris}`,
+        method: 'POST',
+      }),
+    }),
   }),
 });
 
@@ -56,6 +65,7 @@ export const {
   useGetPlaylistsQuery,
   useGetPlaylistTracksQuery,
   useGetSearchTrackResultQuery,
+  useAddTrackToPlaylistQuery,
 } = apiSlice;
 
 export default apiSlice.reducer;
